@@ -292,3 +292,71 @@ footer nav ul {
 .hidden {
   display: none;
 }
+a {
+  font-family: "Work Sans";
+  font-size: 16px;
+  text-decoration: none;
+  padding: 0 10px;
+  font-size: 1.2em;
+}
+a:hover {
+  color: #b1663c;
+}
+a:focus,
+a:visited {
+  text-decoration: none;
+  color: inherit;
+  outline: 0;
+  cursor: pointer;
+}
+a:active {
+  font-weight: bold;
+}
+.logincontainer {
+  font-family: "Work Sans";
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 180px;
+  gap: 30px;
+}
+.logincontainer h2 {
+  padding-bottom: 7px;
+}
+.logincontainer label {
+  text-align: left;
+  justify-self: left;
+}
+.formcontainer {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.formcontainer input {
+  height: 51px;
+  width: 379px;
+  border: none;
+  -webkit-box-shadow: 0px 10px 13px -7px #e6e1e1,
+    0px 4px 14px 0px rgba(0, 0, 0, 0.09), 0px 4px 14px 0px rgba(0, 0, 0, 0.09);
+  box-shadow: 0px 10px 13px -7px #e6e1e1, 0px 4px 14px 0px rgba(0, 0, 0, 0.09),
+    0px 4px 14px 0px rgba(0, 0, 0, 0.09);
+}
+.logincontainer button {
+  background-color: #1d6154;
+  color: white;
+  width: 179px;
+  height: 36px;
+  border-radius: 60px;
+  font-family: "Syne";
+  font-weight: bold;
+  border: none;
+  font-size: 14px;
+}
+.logincontainer a {
+  color: #3d3d3d;
+  text-decoration: underline;
+  font-family: "Work Sans";
+  font-size: 14px;
+}
