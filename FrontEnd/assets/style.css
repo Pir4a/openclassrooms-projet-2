@@ -360,3 +360,21 @@ a:active {
   font-family: "Work Sans";
   font-size: 14px;
 }
+.loginbody {
+  background-color: #fffef8;
+}
+footer {
+  background: white;
+  display: flex;
+  justify-content: flex-end;
+
+  width: 100%;
+}
+.loginfooter {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+.loginfooter li {
+  margin-right: 25rem;
+}
