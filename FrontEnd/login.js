@@ -6,12 +6,6 @@ loginForm.addEventListener("submit", (e) => {
     email: document.getElementById("email").value,
     password: document.getElementById("password").value,
   }
-  console.log(
-    JSON.stringify({
-      email: form.email,
-      password: form.password,
-    })
-  )
   fetch("http://localhost:5678/api/users/login", {
     method: "POST",
     headers: {
@@ -24,7 +18,7 @@ loginForm.addEventListener("submit", (e) => {
     }),
   }).then((response) => {
     if (response.status !== 200) {
-      alert("Email ou mot de passe erronés")
+      alert("Email ou mot de passe incorrect")
     } else {
       response.json().then((data) => {
         sessionStorage.setItem("token", data.token)
