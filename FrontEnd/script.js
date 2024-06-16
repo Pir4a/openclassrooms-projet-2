@@ -23,7 +23,6 @@ function filter(filtre) {
   let objets = document.querySelectorAll(".Objets")
   let appartements = document.querySelectorAll(".Appartements")
   let hotels = document.querySelectorAll(".Hotels")
-  console.log(filtre)
   if (filtre == 1) {
     appartements.forEach((e) => {
       e.classList.add("hidden")
