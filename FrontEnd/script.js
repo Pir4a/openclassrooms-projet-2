@@ -19,6 +19,8 @@ async function afficherProjets() {
 }
 afficherProjets()
 
+//filtres
+
 function filter(filtre) {
   let objets = document.querySelectorAll(".Objets")
   let appartements = document.querySelectorAll(".Appartements")
@@ -70,3 +72,25 @@ objectBtn.addEventListener("click", () => filter(1))
 tousBtn.addEventListener("click", () => filter(0))
 appartBtn.addEventListener("click", () => filter(2))
 hotelsBtn.addEventListener("click", () => filter(3))
+
+// afficher login ou logout
+
+if (sessionStorage.getItem("token") !== null) {
+  document.querySelector(".login").classList.add("hidden")
+  document.querySelector(".logout").classList.remove("hidden")
+}
+if (sessionStorage.getItem("token") == null) {
+  document.querySelector(".login").classList.remove("hidden")
+  document.querySelector(".logout").classList.add("hidden")
+}
+
+//logout function
+
+const logoutBtn = document.querySelector(".logout")
+
+function logout() {
+  sessionStorage.removeItem("token")
+  window.location = "index.html"
+}
+
+logoutBtn.addEventListener("click", logout)

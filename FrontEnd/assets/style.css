@@ -285,10 +285,7 @@ footer nav ul {
   background-color: #1d6154;
   color: white;
 }
-.projet {
-}
-.Objets {
-}
+
 .hidden {
   display: none;
 }
@@ -380,4 +377,12 @@ footer {
 }
 .loginfooter li {
   margin-right: 25rem;
+}
+.modal {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.08);
 }
