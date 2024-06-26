@@ -12,7 +12,7 @@ async function afficherProjets() {
     newProjet.className = "projet "
     newProjet.className += projets[i].category.name
 
-    newProjet.innerHTML = `<img src="${projets[i].imageUrl}" alt="Abajour Tahina" />
+    newProjet.innerHTML = `<img src="${projets[i].imageUrl}" alt="${projets[i].title}" />
             <figcaption>${projets[i].title}</figcaption>`
     gallery.appendChild(newProjet)
   }
@@ -78,8 +78,7 @@ hotelsBtn.addEventListener("click", () => filter(3))
 if (sessionStorage.getItem("token") !== null) {
   document.querySelector(".login").classList.add("hidden")
   document.querySelector(".logout").classList.remove("hidden")
-}
-if (sessionStorage.getItem("token") == null) {
+} else {
   document.querySelector(".login").classList.remove("hidden")
   document.querySelector(".logout").classList.add("hidden")
 }
@@ -94,3 +93,67 @@ function logout() {
 }
 
 logoutBtn.addEventListener("click", logout)
+
+//modal
+
+if (sessionStorage.getItem("token") !== null) {
+  document.getElementById("modifier").classList.remove("hidden")
+  document.querySelector(".filters").classList.add("hidden")
+  document.querySelector(".header").classList.add("margin")
+  document.querySelector(".titlecontainer").classList.add("paddingbottom")
+  document.querySelector(".edition").style.display = "flex"
+} else {
+  document.querySelector(".edition").style.display = "none"
+  document.querySelector(".header").classList.remove("margin")
+  document.getElementById("modifier").classList.add("hidden")
+  document.querySelector(".filters").classList.remove("hidden")
+}
+
+let modifierBtm = document.getElementById("modifier")
+let editionBtn = document.getElementById("edition")
+
+function openModal() {
+  const target = document.querySelector(".modal")
+
+  target.style.display = "flex"
+  target.removeAttribute("aria-hidden")
+  target.setAttribute("aria-modal", "true")
+  modal = target
+  modal.addEventListener("click", closeModal)
+  modal
+    .querySelector(".modal-wrapper")
+    .addEventListener("click", stopPropagation)
+}
+function closeModal() {
+  if (modal == null) return
+  const target = document.querySelector(".modal")
+  target.style.display = "none"
+  modal.setAttribute("aria-hidden", "true")
+  modal.removeAttribute("aria-modal")
+  modal.removeEventListener("click", closeModal)
+  modal = null
+}
+
+const stopPropagation = function (e) {
+  e.stopPropagation()
+}
+
+modifierBtm.addEventListener("click", openModal)
+editionBtn.addEventListener("click", openModal)
+
+// fetch for modal
+
+async function afficherProjetsEdition() {
+  const galleryModal = document.querySelector(".gallerymodal")
+  const reponse = await fetch("http://localhost:5678/api/works")
+  const projets = await reponse.json()
+  for (let i = 0; i < projets.length; i++) {
+    let newProjet = document.createElement("figure")
+    newProjet.className = "projetmodal "
+    newProjet.className += projets[i].category.name
+
+    newProjet.innerHTML = `<img class="modalimg" src="${projets[i].imageUrl}" alt="${projets[i].title}" /> <img class="delete" src="/FrontEnd/assets/icons/trashcan.png" alt="trashcan" />`
+    galleryModal.appendChild(newProjet)
+  }
+}
+afficherProjetsEdition()

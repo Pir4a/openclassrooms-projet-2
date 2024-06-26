@@ -15,7 +15,12 @@
     <script src="script.js" defer></script>
   </head>
   <body>
-    <header>
+    <header class="header">
+      <span class="edition"
+        ><p id="edition">
+          <img src="/FrontEnd/assets/icons/white.png" />Mode édition
+        </p></span
+      >
       <h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
       <nav>
         <ul>
@@ -52,7 +57,25 @@
         </article>
       </section>
       <section id="portfolio">
-        <h2>Mes Projets</h2>
+        <div class="titlecontainer">
+          <h2>Mes Projets</h2>
+          <span id="modifier" class="hidden"
+            ><img src="/FrontEnd/assets/icons/Group.png" />modifier</span
+          >
+        </div>
+        <div>
+          <div class="modal" aria-hidden="true" role="dialog">
+            <div class="modal-wrapper">
+              <button class="closemodal">
+                <img src="/FrontEnd/assets/icons/Vector.png" />
+              </button>
+              <h3>Galerie photo</h3>
+              <div class="gallerymodal"></div>
+              <span class="line"></span>
+              <button class="ajouterbtn">Ajouter une photo</button>
+            </div>
+          </div>
+        </div>
         <div class="filters">
           <button class="filterbtn" id="tous">Tous</button
           ><button class="filterbtn" id="objets">Objets</button
