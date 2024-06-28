@@ -468,6 +468,7 @@ footer {
   position: absolute;
   right: 5px;
   top: 6px;
+  cursor: pointer;
 }
 #modifier {
   cursor: pointer;

@@ -111,6 +111,7 @@ if (sessionStorage.getItem("token") !== null) {
 
 let modifierBtm = document.getElementById("modifier")
 let editionBtn = document.getElementById("edition")
+let closeModalBtn = document.querySelector(".closemodal")
 
 function openModal() {
   const target = document.querySelector(".modal")
@@ -140,6 +141,7 @@ const stopPropagation = function (e) {
 
 modifierBtm.addEventListener("click", openModal)
 editionBtn.addEventListener("click", openModal)
+closeModalBtn.addEventListener("click", closeModal)
 
 // fetch for modal
 
@@ -151,9 +153,40 @@ async function afficherProjetsEdition() {
     let newProjet = document.createElement("figure")
     newProjet.className = "projetmodal "
     newProjet.className += projets[i].category.name
-
-    newProjet.innerHTML = `<img class="modalimg" src="${projets[i].imageUrl}" alt="${projets[i].title}" /> <img class="delete" src="/FrontEnd/assets/icons/trashcan.png" alt="trashcan" />`
+    newProjet.id = projets[i].id
+    newProjet.innerHTML = `<img class="modalimg" src="${projets[i].imageUrl}" alt="${projets[i].title}" /> <img class="delete" id="${projets[i].id}" src="/FrontEnd/assets/icons/trashcan.png" alt="trashcan" />`
     galleryModal.appendChild(newProjet)
   }
+
+  //delete buttons
+
+  let deleteBtn = document.querySelectorAll(".delete")
+
+  deleteBtn.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      btn.preventDefault()
+      supprimerProjet(btn.id)
+    })
+  })
 }
 afficherProjetsEdition()
+
+// delete
+
+function supprimerProjet(id) {
+  if (sessionStorage.getItem("token") == null) return
+  fetch("http://localhost:5678/api/works/" + id, {
+    method: "DELETE",
+    headers: {
+      authorization: `Bearer ${sessionStorage.getItem("token")}`,
+    },
+  }).then((response) => {
+    if (response.ok) {
+      alert("Projet supprimé")
+      afficherProjets()
+      afficherProjetsEdition()
+    } else {
+      alert("Erreur : " + response.status)
+    }
+  })
+}
