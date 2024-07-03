@@ -65,14 +65,64 @@
         </div>
         <div>
           <div class="modal" aria-hidden="true" role="dialog">
-            <div class="modal-wrapper">
-              <button class="closemodal">
-                <img src="/FrontEnd/assets/icons/Vector.png" />
-              </button>
-              <h3>Galerie photo</h3>
-              <div class="gallerymodal"></div>
-              <span class="line"></span>
-              <button class="ajouterbtn">Ajouter une photo</button>
+            <div class="carrousel">
+              <div class="modal-wrapper first-slide">
+                <button class="closemodal">
+                  <img src="/FrontEnd/assets/icons/Vector.png" />
+                </button>
+                <h3>Galerie photo</h3>
+                <div class="gallerymodal"></div>
+                <span class="linemargin"></span>
+                <button class="ajouterbtn">Ajouter une photo</button>
+              </div>
+
+              <div class="modal-wrapper second-slide">
+                <button class="return">
+                  <img
+                    src="/FrontEnd/assets/icons/arrowleft.png"
+                    alt="fleche gauche pour revenir en arriere"
+                  />
+                </button>
+                <button class="closemodal" id="closebtn">
+                  <img src="/FrontEnd/assets/icons/Vector.png" />
+                </button>
+                <h3>Ajout photo</h3>
+                <form name="ajouter-photo-form" class="ajouter-photo-form">
+                  <div class="ajouter-photo">
+                    <img
+                      id="choisirphoto"
+                      src="/FrontEnd/assets/icons/picture-svgrepo-com 1.png"
+                      alt="choisir photo"
+                    />
+                    <img class="previewimg" src="" />
+                    <input
+                      type="file"
+                      id="file"
+                      class="inputfile"
+                      name="file"
+                      accept="image/png, image/jpeg"
+                      required
+                    />
+                    <label for="file" class="ajouterphotobtn"
+                      >+ Ajouter photo</label
+                    >
+
+                    <p class="phototype">jpn,png : 4mo max</p>
+                  </div>
+
+                  <label class="labelformtitle" for="title">Titre</label>
+                  <input class="formtitle" type="text" name="title" required />
+                  <label class="labelformcategorie" for="categorie"
+                    >Catégorie</label
+                  >
+                  <select class="formcategorie" name="categorie"></select>
+                  <div class="bottomwrapper">
+                    <span class="line"></span>
+                    <input type="submit" value="Valider" class="validerbtn" />
+                  </div>
+                </form>
+              </div>
+              <div class="third-slide"></div>
             </div>
           </div>
         </div>

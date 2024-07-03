@@ -121,9 +121,7 @@ function openModal() {
   target.setAttribute("aria-modal", "true")
   modal = target
   modal.addEventListener("click", closeModal)
-  modal
-    .querySelector(".modal-wrapper")
-    .addEventListener("click", stopPropagation)
+  modal.querySelector(".carrousel").addEventListener("click", stopPropagation)
 }
 function closeModal() {
   if (modal == null) return
@@ -164,7 +162,6 @@ async function afficherProjetsEdition() {
 
   deleteBtn.forEach((btn) => {
     btn.addEventListener("click", () => {
-      btn.preventDefault()
       supprimerProjet(btn.id)
     })
   })
@@ -189,4 +186,38 @@ function supprimerProjet(id) {
       alert("Erreur : " + response.status)
     }
   })
+}
+
+// ajouter projet
+
+let ajouterBtn = document.querySelector(".ajouterbtn")
+let first = document.querySelector(".first-slide")
+let second = document.querySelector(".second-slide")
+let returnBtn = document.querySelector(".return")
+
+document
+  .getElementById("closebtn")
+  .addEventListener("click", () => closeModal())
+
+ajouterBtn.addEventListener("click", () => translate(first, second, -100))
+returnBtn.addEventListener("click", () => translate(second, first, 0))
+
+function translate(firstslide, secondslide, vector) {
+  firstslide.style.transform = `translateX(${vector}%)`
+  secondslide.style.transform = `translateX(${vector}%)`
+}
+
+// previsioner l'image
+
+let picture = document.querySelector("#choisirphoto")
+picture.onchange = picturePreview
+function picturePreview() {
+  const [file] = picture.files
+  if (file) {
+    document.querySelector(".previewimg").src = URL.createObjectURL(file)
+    document.querySelector(".previewimg").style.display = "block"
+    document.querySelector("#choisirphoto").style.display = "hidden"
+    document.querySelector(".phototype").style.display = "hidden"
+    document.querySelector("#inputfile").style.display = "hidden"
+  }
 }
