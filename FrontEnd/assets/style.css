@@ -250,7 +250,7 @@ input[type="submit"] {
   font-family: "Syne";
   font-weight: 700;
   color: white;
-  background-color: #1d6154;
+
   margin: 2em auto;
   width: 180px;
   text-align: center;
@@ -480,13 +480,14 @@ footer {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #1d6154;
+  background-color: #a7a7a7;
   color: white;
   font-size: 14px;
   font-weight: bold;
   font-family: "Syne";
   cursor: pointer;
   border: none;
+  z-index: 20;
 }
 .projetmodal {
   position: relative;
@@ -519,6 +520,9 @@ footer {
   padding-block: 13px;
   gap: 7px;
   background-color: #e8f1f6;
+}
+.no-padding {
+  padding-block: 0px;
 }
 .ajouter-photo p {
   font-weight: lighter;
@@ -581,17 +585,40 @@ footer {
   border: none;
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
   margin-top: 10px;
+  padding-left: 16px;
+  font-family: "Work Sans";
+  color: #444444;
+  font-size: 14px;
 }
 .formcategorie {
   height: 51px;
   border: none;
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
   margin-top: 10px;
+  appearance: none;
+  padding: 16px;
+  font-family: "Work Sans";
+  color: #444444;
+  font-size: 14px;
+  z-index: 10;
+}
+.arrow {
+  width: 11px;
+  height: 11px;
+  position: absolute;
+  right: 115px;
+  bottom: 190px;
 }
 .bottomwrapper {
   display: flex;
   flex-direction: column;
   margin-top: -40px;
+  z-index: 0;
+}
+.previewimg {
+  width: 129px;
+  height: 193px;
+  display: none;
 }
 #modifier {
   cursor: pointer;

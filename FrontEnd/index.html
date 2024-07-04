@@ -111,11 +111,29 @@
                   </div>
 
                   <label class="labelformtitle" for="title">Titre</label>
-                  <input class="formtitle" type="text" name="title" required />
+                  <input
+                    class="formtitle"
+                    id="worktitle"
+                    type="text"
+                    name="title"
+                    required
+                  />
                   <label class="labelformcategorie" for="categorie"
                     >Catégorie</label
                   >
-                  <select class="formcategorie" name="categorie"></select>
+                  <img
+                    src="/FrontEnd/assets/icons/chevron-down-solid 1.png"
+                    class="arrow"
+                  />
+                  <select class="formcategorie" name="categorie">
+                    >
+                    <option></option>
+                    <option value="Objets" id="1">Objets</option>
+                    <option value="Appartements" id="2">Appartements</option>
+                    <option value="Hotels & restaurants" id="3">
+                      Hotels & restaurants
+                    </option>
+                  </select>
                   <div class="bottomwrapper">
                     <span class="line"></span>
                     <input type="submit" value="Valider" class="validerbtn" />

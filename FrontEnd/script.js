@@ -161,6 +161,9 @@ async function afficherProjetsEdition() {
   let deleteBtn = document.querySelectorAll(".delete")
 
   deleteBtn.forEach((btn) => {
+    btn.addEventListener("click", event)
+  })
+  deleteBtn.forEach((btn) => {
     btn.addEventListener("click", () => {
       supprimerProjet(btn.id)
     })
@@ -177,15 +180,23 @@ function supprimerProjet(id) {
     headers: {
       authorization: `Bearer ${sessionStorage.getItem("token")}`,
     },
-  }).then((response) => {
-    if (response.ok) {
-      alert("Projet supprimé")
+  })
+    .then((response) => {
+      if (response.ok) {
+        alert("Projet supprimé")
+        afficherProjets()
+        afficherProjetsEdition()
+      } else {
+        alert("Erreur : " + response.status)
+      }
+    })
+    .then(() => {
       afficherProjets()
       afficherProjetsEdition()
-    } else {
-      alert("Erreur : " + response.status)
-    }
-  })
+      document.querySelector(".modal").style.display = "none"
+      document.removeEventListener("click", closeModal)
+    })
+    .catch((error) => console.error("Erreur:", error))
 }
 
 // ajouter projet
@@ -209,15 +220,109 @@ function translate(firstslide, secondslide, vector) {
 
 // previsioner l'image
 
-let picture = document.querySelector("#choisirphoto")
-picture.onchange = picturePreview
+let picture = document.querySelector(".inputfile")
+picture.onchange = () => picturePreview()
+
 function picturePreview() {
   const [file] = picture.files
   if (file) {
     document.querySelector(".previewimg").src = URL.createObjectURL(file)
     document.querySelector(".previewimg").style.display = "block"
-    document.querySelector("#choisirphoto").style.display = "hidden"
-    document.querySelector(".phototype").style.display = "hidden"
-    document.querySelector("#inputfile").style.display = "hidden"
+    document.querySelector("#choisirphoto").style.display = "none"
+    document.querySelector(".phototype").style.display = "none"
+    document.querySelector(".inputfile").style.display = "none"
+    document.querySelector(".ajouterphotobtn").style.display = "none"
+    document.querySelector(".ajouter-photo").classList.add("no-padding")
   }
+}
+
+// submit and post
+
+let submitFormBtn = document.querySelector(".validerbtn")
+submitFormBtn.addEventListener("click", function (event) {
+  event.preventDefault()
+})
+submitFormBtn.addEventListener("click", () => submitForm())
+
+function submitForm() {
+  let token = sessionStorage.getItem("token")
+  let form = document.querySelector(".formcategorie")
+
+  let title = document.getElementById("worktitle").value
+  let workCategory = form.options[form.selectedIndex].innerText
+  let workId = form.options[form.selectedIndex].id
+  let workImg = document.querySelector(".inputfile").files[0]
+
+  if (title == "") {
+    alert("Veuillez ajouter un titre")
+    return
+  }
+  if (workCategory == "") {
+    alert("Veuillez selectionner une catégorie")
+    return
+  }
+  if (workImg == undefined) {
+    alert("Veuillez ajouter une image")
+    return
+  }
+
+  let formData = new FormData()
+  formData.append("imageUrl", workImg)
+  formData.append("title", title)
+
+  formData.append("categoryId", workId)
+  console.log(formData)
+  console.log(workImg)
+  console.log(title)
+  console.log(workId)
+
+  let testFormData = new FormData()
+  console.log(testFormData)
+
+  postFormData(formData)
+}
+
+// submit btn color
+
+document.querySelector(".ajouter-photo-form").onchange = () =>
+  changeSubmitBtnColor()
+
+function changeSubmitBtnColor() {
+  let submit = document.querySelector(".formcategorie")
+  if (
+    document.querySelector(".inputfile") !== undefined &&
+    document.querySelector("worktitle") !== "" &&
+    submit.options[submit.selectedIndex].id !== ""
+  ) {
+    document.querySelector(".validerbtn").style.backgroundColor = "#1D6154"
+  }
+}
+
+// post data
+
+function postFormData(formData) {
+  let token = sessionStorage.getItem("token")
+
+  fetch("http://localhost:5678/api/works", {
+    method: "POST",
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+    body: formData,
+  })
+    .then((response) => {
+      if (response.ok) {
+        alert("Nouveau fichier envoyé avec succés : " + title)
+        return response.json()
+      } else {
+        console.error("Erreur:", response.status)
+      }
+    })
+    .then(() => {
+      afficherProjets()
+      afficherProjetsEdition()
+      document.querySelector(".modal").style.display = "none"
+      document.removeEventListener("click", closeModal)
+    })
+    .catch((error) => console.error("Erreur:", error))
 }
