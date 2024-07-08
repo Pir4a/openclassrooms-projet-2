@@ -267,15 +267,13 @@ function submitForm() {
   }
 
   let formData = new FormData()
-  formData.append("imageUrl", workImg)
   formData.append("title", title)
-
-  formData.append("categoryId", workId)
+  formData.append("category", workId)
+  formData.append("image", workImg)
   console.log(formData)
   console.log(workImg)
   console.log(title)
   console.log(workId)
-
   let testFormData = new FormData()
   console.log(testFormData)
 
