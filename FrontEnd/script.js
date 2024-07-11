@@ -161,42 +161,35 @@ async function afficherProjetsEdition() {
   let deleteBtn = document.querySelectorAll(".delete")
 
   deleteBtn.forEach((btn) => {
-    btn.addEventListener("click", event)
-  })
-  deleteBtn.forEach((btn) => {
-    btn.addEventListener("click", () => {
+    btn.addEventListener("click", (event) => {
+      event.preventDefault()
       supprimerProjet(btn.id)
+      console.log(4)
     })
   })
 }
 afficherProjetsEdition()
 
-// delete
-
+// delete function
 function supprimerProjet(id) {
   if (sessionStorage.getItem("token") == null) return
+
   fetch("http://localhost:5678/api/works/" + id, {
     method: "DELETE",
     headers: {
       authorization: `Bearer ${sessionStorage.getItem("token")}`,
     },
-  })
-    .then((response) => {
-      if (response.ok) {
-        alert("Projet supprimé")
-        afficherProjets()
-        afficherProjetsEdition()
-      } else {
-        alert("Erreur : " + response.status)
-      }
-    })
-    .then(() => {
+  }).then((response) => {
+    if (response.ok) {
+      alert("Projet supprimé")
       afficherProjets()
       afficherProjetsEdition()
       document.querySelector(".modal").style.display = "none"
       document.removeEventListener("click", closeModal)
-    })
-    .catch((error) => console.error("Erreur:", error))
+    } else {
+      alert("Erreur : " + response.status)
+    }
+  })
 }
 
 // ajouter projet
@@ -241,11 +234,12 @@ function picturePreview() {
 let submitFormBtn = document.querySelector(".validerbtn")
 submitFormBtn.addEventListener("click", function (event) {
   event.preventDefault()
+  submitForm()
 })
-submitFormBtn.addEventListener("click", () => submitForm())
 
 function submitForm() {
   let token = sessionStorage.getItem("token")
+  if (token == null) return
   let form = document.querySelector(".formcategorie")
 
   let title = document.getElementById("worktitle").value
@@ -274,10 +268,29 @@ function submitForm() {
   console.log(workImg)
   console.log(title)
   console.log(workId)
-  let testFormData = new FormData()
-  console.log(testFormData)
 
-  postFormData(formData)
+  fetch("http://localhost:5678/api/works", {
+    method: "POST",
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+    body: formData,
+  })
+    .then((response) => {
+      if (response.ok) {
+        alert("Nouveau projet envoyé avec succés")
+      } else {
+        console.error("Erreur:", response.status)
+      }
+    })
+    .then(() => {
+      afficherProjets()
+      afficherProjetsEdition()
+      document.querySelector(".modal").style.display = "none"
+      document.removeEventListener("click", closeModal)
+      console.log("frefs")
+    })
+    .catch((error) => console.error("Erreur:", error))
 }
 
 // submit btn color
@@ -294,33 +307,4 @@ function changeSubmitBtnColor() {
   ) {
     document.querySelector(".validerbtn").style.backgroundColor = "#1D6154"
   }
-}
-
-// post data
-
-function postFormData(formData) {
-  let token = sessionStorage.getItem("token")
-
-  fetch("http://localhost:5678/api/works", {
-    method: "POST",
-    headers: {
-      authorization: `Bearer ${token}`,
-    },
-    body: formData,
-  })
-    .then((response) => {
-      if (response.ok) {
-        alert("Nouveau fichier envoyé avec succés : " + title)
-        return response.json()
-      } else {
-        console.error("Erreur:", response.status)
-      }
-    })
-    .then(() => {
-      afficherProjets()
-      afficherProjetsEdition()
-      document.querySelector(".modal").style.display = "none"
-      document.removeEventListener("click", closeModal)
-    })
-    .catch((error) => console.error("Erreur:", error))
 }
