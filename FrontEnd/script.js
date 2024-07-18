@@ -5,6 +5,9 @@ const tousBtn = document.getElementById("tous")
 const hotelsBtn = document.getElementById("hotels")
 
 async function afficherProjets() {
+  // clear gallery
+  gallery.innerHTML = ""
+
   const reponse = await fetch("http://localhost:5678/api/works")
   const projets = await reponse.json()
   for (let i = 0; i < projets.length; i++) {
@@ -145,6 +148,9 @@ closeModalBtn.addEventListener("click", closeModal)
 
 async function afficherProjetsEdition() {
   const galleryModal = document.querySelector(".gallerymodal")
+
+  galleryModal.innerHTML = ""
+
   const reponse = await fetch("http://localhost:5678/api/works")
   const projets = await reponse.json()
   for (let i = 0; i < projets.length; i++) {
@@ -152,7 +158,7 @@ async function afficherProjetsEdition() {
     newProjet.className = "projetmodal "
     newProjet.className += projets[i].category.name
     newProjet.id = projets[i].id
-    newProjet.innerHTML = `<img class="modalimg" src="${projets[i].imageUrl}" alt="${projets[i].title}" /> <img class="delete" id="${projets[i].id}" src="/FrontEnd/assets/icons/trashcan.png" alt="trashcan" />`
+    newProjet.innerHTML = `<img class="modalimg" src="${projets[i].imageUrl}" alt="${projets[i].title}" /> <img class="delete" id="${projets[i].id}" src="./assets/icons/trashcan.png" alt="trashcan" />`
     galleryModal.appendChild(newProjet)
   }
 
@@ -162,9 +168,8 @@ async function afficherProjetsEdition() {
 
   deleteBtn.forEach((btn) => {
     btn.addEventListener("click", (event) => {
-      event.preventDefault()
       supprimerProjet(btn.id)
-      console.log(4)
+      event.preventDefault()
     })
   })
 }
@@ -182,8 +187,10 @@ function supprimerProjet(id) {
   }).then((response) => {
     if (response.ok) {
       alert("Projet supprimé")
+
       afficherProjets()
       afficherProjetsEdition()
+      translate(second, first, 0)
       document.querySelector(".modal").style.display = "none"
       document.removeEventListener("click", closeModal)
     } else {
@@ -233,8 +240,8 @@ function picturePreview() {
 
 let submitFormBtn = document.querySelector(".validerbtn")
 submitFormBtn.addEventListener("click", function (event) {
-  event.preventDefault()
   submitForm()
+  event.preventDefault()
 })
 
 function submitForm() {
@@ -264,10 +271,6 @@ function submitForm() {
   formData.append("title", title)
   formData.append("category", workId)
   formData.append("image", workImg)
-  console.log(formData)
-  console.log(workImg)
-  console.log(title)
-  console.log(workId)
 
   fetch("http://localhost:5678/api/works", {
     method: "POST",
@@ -284,11 +287,21 @@ function submitForm() {
       }
     })
     .then(() => {
+      document.getElementById("worktitle").value = ""
+      form.selectedIndex = 0
+      picture.files[0] = null
+      document.querySelector(".previewimg").src = ""
+      document.querySelector(".previewimg").style.display = "none"
+      document.querySelector("#choisirphoto").style.display = "block"
+      document.querySelector(".phototype").style.display = "block"
+      document.querySelector(".inputfile").style.display = "block"
+      document.querySelector(".ajouterphotobtn").style.display = "flex"
+      document.querySelector(".ajouter-photo").classList.remove("no-padding")
       afficherProjets()
       afficherProjetsEdition()
+      translate(second, first, 0)
       document.querySelector(".modal").style.display = "none"
       document.removeEventListener("click", closeModal)
-      console.log("frefs")
     })
     .catch((error) => console.error("Erreur:", error))
 }
