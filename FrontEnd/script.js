@@ -1,8 +1,6 @@
 const gallery = document.getElementById("gallery")
-const objectBtn = document.getElementById("objets")
-const appartBtn = document.getElementById("appartements")
+
 const tousBtn = document.getElementById("tous")
-const hotelsBtn = document.getElementById("hotels")
 
 async function afficherProjets() {
   // clear gallery
@@ -22,12 +20,28 @@ async function afficherProjets() {
 }
 afficherProjets()
 
+async function creerCategorie() {
+  const filters = document.querySelector(".filters")
+
+  const reponse = await fetch("http://localhost:5678/api/categories")
+  const filtersCategorie = await reponse.json()
+
+  for (let i = 0; i < filtersCategorie.length; i++) {
+    let newFilter = document.createElement("button")
+    newFilter.id = filtersCategorie[i].id
+    newFilter.className = "filterbtn"
+    newFilter.innerHTML = filtersCategorie[i].name
+    filters.appendChild(newFilter)
+    newFilter.addEventListener("click", () => filter(filtersCategorie[i].id))
+  }
+}
+creerCategorie()
 //filtres
 
 function filter(filtre) {
   let objets = document.querySelectorAll(".Objets")
   let appartements = document.querySelectorAll(".Appartements")
-  let hotels = document.querySelectorAll(".Hotels")
+  let hotels = document.querySelectorAll(".Hotels & restaurants")
   if (filtre == 1) {
     appartements.forEach((e) => {
       e.classList.add("hidden")
@@ -71,10 +85,8 @@ function filter(filtre) {
     return
   }
 }
-objectBtn.addEventListener("click", () => filter(1))
+
 tousBtn.addEventListener("click", () => filter(0))
-appartBtn.addEventListener("click", () => filter(2))
-hotelsBtn.addEventListener("click", () => filter(3))
 
 // afficher login ou logout
 
